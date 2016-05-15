@@ -39,7 +39,6 @@
                                             <th class="text-left">Unit</th>
                                             <th class="text-center">Total Beds</th>
                                             <th class="text-center">Available Beds</th>
-                                            <th></th>
                                         </tr>
                                         <tr class="{{ trust['type1_class']}}">
                                             <td class="text-left">General Acute</td>
@@ -65,7 +64,7 @@
                 </div>
             </div>
             <div class="col-lg-12 section-spacer"></div>
-        <h2>Open Bed Requests ({{active_request_list["count"]}})</h2>
+        <h2>Open Requests ({{active_request_list["count"]}})</h2>
         {% for request in active_request_list["requests"]|sort %}
         <h3 class="region-header">NHS Number: {{ request }}</h3>
         <table class="table">
@@ -77,8 +76,6 @@
                 <!--<th>NHS No</th>-->
                 <th>Age</th>
                 <th>Gender</th>
-                <th>Status</th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -99,9 +96,9 @@
         </table>
         {% endfor %}
     <div class="section-spacer"></div>
-    <h2>Ignore Bed Requests ({{cancelled_request_list["count"]}})</h2>
+    <h2>Ignored ({{cancelled_request_list["count"]}})</h2>
     {% for request in cancelled_request_list["requests"]|sort %}
-    <h3>NHS Number: {{ request }}</h3>
+    <h3 class="region-header">NHS Number: {{ request }}</h3>
         <table class="table table-hover">
             <thead>
             <tr>
@@ -110,8 +107,7 @@
                 <th>NHS No</th>
                 <th>Age</th>
                 <th>Gender</th>
-                <th>Status</th>
-                <th></th>
+                <!--<th>Status</th>-->
             </tr>
             </thead>
             <tbody>
@@ -122,26 +118,24 @@
                     <td>{{ request["nhsNumber"] }}</td>
                     <td>{{ request["age"] }}</td>
                     <td>{{ request["gender"] }}</td>
-                    <td>{{ request["status"] }}</td>
+                    <!--<td>{{ request["status"] }}</td>-->
                 </tr>
                 {% endfor %}
             </tbody>
     </table>
         {% endfor %}
     <div class="section-spacer"></div>
-    <h2>Rejected Bed Requests ({{rejected_request_list["count"]}})</h2>
+    <h2>Rejections ({{rejected_request_list["count"]}})</h2>
         {% for request in rejected_request_list["requests"]|sort %}
-        <h3>NHS Number: {{ request }}</h3>
+        <h3 class="region-header">NHS Number: {{ request }}</h3>
             <table class="table table-hover">
             <thead>
                 <tr>
                 <th>Date Referred</th>
-                <th>Number of Rejections</th>
-                <th>Rejection Date></th>
+                <th>Referred By</th>
                 <th>NHS No</th>
                 <th>Age</th>
                 <th>Gender</th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -152,7 +146,6 @@
                 <td>{{ request["nhsNumber"] }}</td>
                 <td>{{ request["age"] }}</td>
                 <td>{{ request["gender"] }}</td>
-                <td>{{ request["status"] }}</td>
             </tr>
             {% endfor %}
             </tbody>
