@@ -16,30 +16,6 @@ def dashboard():
     list_of_trusts = ['R1A', 'R1A02','R1A03']
     trust_data = controller.get_trust_statuses(list_of_trusts)
 
-    for trust in trust_data:
-        if trust['beds_available_type1'] < 1:
-            trust['type1_class'] = 'danger'
-        elif trust['beds_available_type1'] < 5:
-            trust['type1_class'] = 'warning'
-        else:
-            trust['type1_class'] = 'active'
-
-    for trust in trust_data:
-        if trust['beds_available_type2'] < 1:
-            trust['type2_class'] = 'danger'
-        elif trust['beds_available_type2'] < 5:
-            trust['type2_class'] = 'warning'
-        else:
-            trust['type2_class'] = 'active'
-
-    for trust in trust_data:
-        if trust['beds_available_type3'] < 1:
-            trust['type3_class'] = 'danger'
-        elif trust['beds_available_type3'] < 5:
-            trust['type3_class'] = 'warning'
-        else:
-            trust['type3_class'] = 'active'
-
     # Get active requests
     active_request_list = controller.get_active_requests()
     no_of_requests = len(active_request_list)
@@ -74,7 +50,9 @@ def dashboard():
 
 @app.route('/units')
 def units():
-    return render_template('units.html')
+    trust_data = controller.get_all_trust_statuses()
+    return render_template('units.html',
+                           trusts=trust_data)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
