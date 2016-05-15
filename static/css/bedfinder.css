@@ -1,3 +1,30 @@
 .section-spacer {
-    padding-top: 30px
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.widget {
+    border: solid;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.widget-header {
+    border-bottom: solid;
+    width: 100%;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+
+}
+
+.widget-data {
+    /*border: 1px solid red;*/
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+table {
+    /*border: 2px solid green;*/
 }
