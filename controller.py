@@ -1,4 +1,5 @@
 import requests
+import dateutil.parser
 
 
 # Get the statuses of a list of specific trusts
@@ -98,27 +99,79 @@ def get_active_requests():
     print(request_list)
     print(len(request_list))
 
-    filtered_request_list = []
+    filtered_request_list = {}
 
     for request in request_list:
+
         if request['status'] == 'Active':
-            filtered_request_list.append(request)
+
+            yourdate = dateutil.parser.parse(request['created'])
+
+            request['created'] = yourdate.strftime("%d-%b-%Y %H:%M:%S")
+            request['status'] = 'Waiting'
+            request['nhsNumber'] = format_nhs_number(request['nhsNumber'])
+
+            try:
+                filtered_request_list[request['nhsNumber']].append(request)
+
+            except KeyError as e:
+                filtered_request_list[request['nhsNumber']] = []
+                filtered_request_list[request['nhsNumber']].append(request)
 
     return filtered_request_list
 
 
-# Gets a list of all rejected requests
+# Gets a list of all cancelled requests
+def get_cancelled_requests():
+    response = requests.get('https://camhs-api.herokuapp.com/requests')
+    request_list = response.json()
+    print(request_list)
+    print(len(request_list))
+
+    filtered_request_list = {}
+
+    for request in request_list:
+        if request['status'] == 'Cancelled':
+
+            yourdate = dateutil.parser.parse(request['created'])
+            request['created'] = yourdate.strftime("%d-%b-%Y %H:%M:%S")
+            request['status'] = 'Not Responded'
+            request['nhsNumber'] = format_nhs_number(request['nhsNumber'])
+
+
+            try:
+                filtered_request_list[request['nhsNumber']].append(request)
+
+            except KeyError as e:
+                filtered_request_list[request['nhsNumber']] = []
+                filtered_request_list[request['nhsNumber']].append(request)
+
+    return filtered_request_list
+
+
+# Gets a list of all cancelled requests
 def get_rejected_requests():
     response = requests.get('https://camhs-api.herokuapp.com/requests')
     request_list = response.json()
     print(request_list)
     print(len(request_list))
 
-    filtered_request_list = []
+    filtered_request_list = {}
 
     for request in request_list:
         if request['status'] == 'Rejected':
-            filtered_request_list.append(request)
+
+            yourdate = dateutil.parser.parse(request['created'])
+            request['created'] = yourdate.strftime("%d-%b-%Y %H:%M:%S")
+            request['status'] = 'Rejected'
+            request['nhsNumber'] = format_nhs_number(request['nhsNumber'])
+
+            try:
+                filtered_request_list[request['nhsNumber']].append(request)
+
+            except KeyError as e:
+                filtered_request_list[request['nhsNumber']] = []
+                filtered_request_list[request['nhsNumber']].append(request)
 
     return filtered_request_list
 
@@ -129,3 +182,11 @@ print(trusts)
 for i in trusts:
     print(trusts[i])
 
+
+def format_nhs_number(nhs_number):
+    formatted_number = "{0} {1} {2}".format(nhs_number[0:3],
+                                            nhs_number[3:6],
+                                            nhs_number[6:10])
+    print(nhs_number)
+    print(formatted_number)
+    return formatted_number

@@ -33,7 +33,7 @@ def dashboard():
     }
 
     # Get cancelled requests
-    cancelled_request_list = controller.get_rejected_requests()
+    cancelled_request_list = controller.get_cancelled_requests()
     no_of_requests = len(cancelled_request_list)
     cancelled_request_data = {
         'count': no_of_requests,

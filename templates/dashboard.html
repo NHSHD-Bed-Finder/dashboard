@@ -24,7 +24,6 @@
     <div class="container">
     <h1>Case Manager Dashboard</h1>
     <h2>My Units (<a href="/units">See All Units</a>)</h2>
-
             <div class="capacity-grid">
                 <div class="col-lg-12">
                     <div class="row" id="widget-row">
@@ -66,13 +65,16 @@
                 </div>
             </div>
             <div class="col-lg-12 section-spacer"></div>
-        <h2>Open Referrals ({{active_request_list["count"]}})</h2>
-        <table class="table table-hover">
+        <h2>Open Bed Requests ({{active_request_list["count"]}})</h2>
+        {% for request in active_request_list["requests"]|sort %}
+        <h3 class="region-header">NHS Number: {{ request }}</h3>
+        <table class="table">
             <thead>
             <tr>
                 <th>Date Referred</th>
                 <th>Referred By</th>
-                <th>NHS No</th>
+                <th>Referred To</th>
+                <!--<th>NHS No</th>-->
                 <th>Age</th>
                 <th>Gender</th>
                 <th>Status</th>
@@ -80,12 +82,13 @@
             </tr>
             </thead>
             <tbody>
-            {% for request in active_request_list["requests"] %}
+            {% for request in active_request_list["requests"][request] %}
             <a href="/">
             <tr class="info">
                 <td>{{ request["created"] }}</td>
                 <td>{{ request["referredBy"] }}</td>
-                <td>{{ request["nhsNumber"] }}</td>
+                <td>{{ request["destinationTrust"]["name"] }}</td>
+                <!--<td>{{ request["nhsNumber"] }}</td>-->
                 <td>{{ request["age"] }}</td>
                 <td>{{ request["gender"] }}</td>
                 <td>{{ request["status"] }}</td>
@@ -94,8 +97,11 @@
             {% endfor %}
             </tbody>
         </table>
+        {% endfor %}
     <div class="section-spacer"></div>
-    <h2>Cancelled Referrals ({{cancelled_request_list["count"]}})</h2>
+    <h2>Ignore Bed Requests ({{cancelled_request_list["count"]}})</h2>
+    {% for request in cancelled_request_list["requests"]|sort %}
+    <h3>NHS Number: {{ request }}</h3>
         <table class="table table-hover">
             <thead>
             <tr>
@@ -109,7 +115,7 @@
             </tr>
             </thead>
             <tbody>
-                {% for request in cancelled_request_list["requests"] %}
+                {% for request in cancelled_request_list["requests"][request] %}
                 <tr class="warning">
                     <td>{{ request["created"] }}</td>
                     <td>{{ request["referredBy"] }}</td>
@@ -121,8 +127,11 @@
                 {% endfor %}
             </tbody>
     </table>
+        {% endfor %}
     <div class="section-spacer"></div>
-    <h2>Rejected Referrals ({{rejected_request_list["count"]}})</h2>
+    <h2>Rejected Bed Requests ({{rejected_request_list["count"]}})</h2>
+        {% for request in rejected_request_list["requests"]|sort %}
+        <h3>NHS Number: {{ request }}</h3>
             <table class="table table-hover">
             <thead>
                 <tr>
@@ -136,7 +145,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for request in rejected_request_list["requests"] %}
+            {% for request in rejected_request_list["requests"][request] %}
             <tr class="danger">
                 <td>{{ request["created"] }}</td>
                 <td>{{ request["referredBy"] }}</td>
@@ -148,27 +157,29 @@
             {% endfor %}
             </tbody>
     </table>
+        {% endfor %}
         <div class="section-spacer"></div>
-            <h2>Open Disputes</h2>
-        <table class="table table-hover">
-            <tr>
-                <th>Date Referred</th>
-                <th>Referred By</th>
-                <th>NHS No</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-            <tr class="danger">
-                <td>2016-05-14 18:45:03</td>
-                <td>Dr Joglekar</td>
-                <td>1245665421</td>
-                <td>16</td>
-                <td>Male</td>
-                <td>Open</td>
-            </tr>
-    </table>
+
+        <!--<h2>Open Disputes</h2>-->
+        <!--<table class="table table-hover">-->
+            <!--<tr>-->
+                <!--<th>Date Referred</th>-->
+                <!--<th>Referred By</th>-->
+                <!--<th>NHS No</th>-->
+                <!--<th>Age</th>-->
+                <!--<th>Gender</th>-->
+                <!--<th>Status</th>-->
+                <!--<th></th>-->
+            <!--</tr>-->
+            <!--<tr class="danger">-->
+                <!--<td>2016-05-14 18:45:03</td>-->
+                <!--<td>Dr Joglekar</td>-->
+                <!--<td>1245665421</td>-->
+                <!--<td>16</td>-->
+                <!--<td>Male</td>-->
+                <!--<td>Open</td>-->
+            <!--</tr>-->
+        <!--</table>-->
 
     </div>
 
