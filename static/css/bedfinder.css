@@ -39,4 +39,5 @@
 
 table {
     /*border: 2px solid green;*/
+    table-layout: fixed;
 }

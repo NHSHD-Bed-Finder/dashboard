@@ -64,18 +64,40 @@
                 </div>
             </div>
             <div class="col-lg-12 section-spacer"></div>
+
+        <h2>Open Disputes (1)</h2>
+        <table class="table table-hover">
+            <tr>
+                <th>Date Referred</th>
+                <th>Referred By</th>
+                <th>NHS No</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            <tr class="danger">
+                <td>14-05-2016 18:45</td>
+                <td>Dr Joglekar</td>
+                <td>1245665421</td>
+                <td>16</td>
+                <td>Male</td>
+                <td>In Dispute</td>
+                <td><button class="btn btn-default btn-sm">View</button></td>
+            </tr>
+        </table>
+        <div class="section-spacer"></div>
         <h2>Open Requests ({{active_request_list["count"]}})</h2>
         {% for request in active_request_list["requests"]|sort %}
         <h3 class="region-header">NHS Number: {{ request }}</h3>
         <table class="table">
             <thead>
             <tr>
-                <th>Date Referred</th>
-                <th>Referred By</th>
+                <th width="15%">Date Referred</th>
+                <th width="20%">Referred By</th>
                 <th>Referred To</th>
-                <!--<th>NHS No</th>-->
-                <th>Age</th>
-                <th>Gender</th>
+                <th width="10%">Age</th>
+                <th width="10%">Gender</th>
             </tr>
             </thead>
             <tbody>
@@ -85,10 +107,40 @@
                 <td>{{ request["created"] }}</td>
                 <td>{{ request["referredBy"] }}</td>
                 <td>{{ request["destinationTrust"]["name"] }}</td>
+                <td>{{ request["age"] }}</td>
+                <td>{{ request["gender"] }}</td>
+            </tr>
+            </a>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+        <div class="section-spacer"></div>
+        <h2>Accepted Requests ({{accepted_request_list["count"]}})</h2>
+        {% for request in accepted_request_list["requests"]|sort %}
+        <h3 class="region-header">NHS Number: {{ request }}</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="15%">Date Referred</th>
+                <th width="20%">Referred By</th>
+                <th>Accepted By</th>
+                <!--<th>NHS No</th>-->
+                <th width="10%">Age</th>
+                <th width="10%">Gender</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for request in accepted_request_list["requests"][request] %}
+            <a href="/">
+            <tr class="info">
+                <td>{{ request["created"] }}</td>
+                <td>{{ request["referredBy"] }}</td>
+                <td>{{ request["destinationTrust"]["name"] }}</td>
                 <!--<td>{{ request["nhsNumber"] }}</td>-->
                 <td>{{ request["age"] }}</td>
                 <td>{{ request["gender"] }}</td>
-                <td>{{ request["status"] }}</td>
+                <!--<td>{{ request["status"] }}</td>-->
             </tr>
             </a>
             {% endfor %}
@@ -96,17 +148,18 @@
         </table>
         {% endfor %}
     <div class="section-spacer"></div>
+
     <h2>Ignored ({{cancelled_request_list["count"]}})</h2>
     {% for request in cancelled_request_list["requests"]|sort %}
     <h3 class="region-header">NHS Number: {{ request }}</h3>
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>Date Referred</th>
-                <th>Referred By</th>
-                <th>NHS No</th>
-                <th>Age</th>
-                <th>Gender</th>
+                <th width="15%">Date Referred</th>
+                <th width="20%">Referred By</th>
+                <th>Ignored By</th>
+                <th width="10%">Age</th>
+                <th width="10%">Gender</th>
                 <!--<th>Status</th>-->
             </tr>
             </thead>
@@ -115,7 +168,7 @@
                 <tr class="warning">
                     <td>{{ request["created"] }}</td>
                     <td>{{ request["referredBy"] }}</td>
-                    <td>{{ request["nhsNumber"] }}</td>
+                    <td>{{ request["destinationTrust"]["name"] }}</td>
                     <td>{{ request["age"] }}</td>
                     <td>{{ request["gender"] }}</td>
                     <!--<td>{{ request["status"] }}</td>-->
@@ -131,11 +184,11 @@
             <table class="table table-hover">
             <thead>
                 <tr>
-                <th>Date Referred</th>
-                <th>Referred By</th>
-                <th>NHS No</th>
-                <th>Age</th>
-                <th>Gender</th>
+                <th width="15%">Date Referred</th>
+                <th width="20%">Referred By</th>
+                <th>Rejected By</th>
+                <th width="10%">Age</th>
+                <th width="10%">Gender</th>
             </tr>
             </thead>
             <tbody>
@@ -143,7 +196,7 @@
             <tr class="danger">
                 <td>{{ request["created"] }}</td>
                 <td>{{ request["referredBy"] }}</td>
-                <td>{{ request["nhsNumber"] }}</td>
+                <td>{{ request["destinationTrust"]["name"] }}</td>
                 <td>{{ request["age"] }}</td>
                 <td>{{ request["gender"] }}</td>
             </tr>
@@ -152,28 +205,6 @@
     </table>
         {% endfor %}
         <div class="section-spacer"></div>
-
-        <!--<h2>Open Disputes</h2>-->
-        <!--<table class="table table-hover">-->
-            <!--<tr>-->
-                <!--<th>Date Referred</th>-->
-                <!--<th>Referred By</th>-->
-                <!--<th>NHS No</th>-->
-                <!--<th>Age</th>-->
-                <!--<th>Gender</th>-->
-                <!--<th>Status</th>-->
-                <!--<th></th>-->
-            <!--</tr>-->
-            <!--<tr class="danger">-->
-                <!--<td>2016-05-14 18:45:03</td>-->
-                <!--<td>Dr Joglekar</td>-->
-                <!--<td>1245665421</td>-->
-                <!--<td>16</td>-->
-                <!--<td>Male</td>-->
-                <!--<td>Open</td>-->
-            <!--</tr>-->
-        <!--</table>-->
-
     </div>
 
     <!-- Latest compiled and minified JavaScript -->

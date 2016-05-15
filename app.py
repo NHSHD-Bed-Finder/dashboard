@@ -24,6 +24,14 @@ def dashboard():
         'requests': active_request_list
     }
 
+    # Get accepted requests
+    accepted_request_list = controller.get_accepted_requests()
+    no_of_requests = len(accepted_request_list)
+    accepted_request_data = {
+        'count': no_of_requests,
+        'requests': accepted_request_list
+    }
+
     # Get rejected requests
     rejected_request_list = controller.get_rejected_requests()
     no_of_requests = len(rejected_request_list)
@@ -44,7 +52,8 @@ def dashboard():
                            trusts=trust_data,
                            active_request_list=active_request_data,
                            rejected_request_list=rejected_request_data,
-                           cancelled_request_list=cancelled_request_data
+                           cancelled_request_list=cancelled_request_data,
+                           accepted_request_list=accepted_request_data
                            )
 
 

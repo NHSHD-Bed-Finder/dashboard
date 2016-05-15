@@ -121,6 +121,35 @@ def get_active_requests():
     return filtered_request_list
 
 
+# Gets a list of all accepted requests
+def get_accepted_requests():
+    response = requests.get('https://camhs-api.herokuapp.com/requests')
+    request_list = response.json()
+    print(request_list)
+    print(len(request_list))
+
+    filtered_request_list = {}
+
+    for request in request_list:
+
+        if request['status'] == 'Accepted':
+
+            yourdate = dateutil.parser.parse(request['created'])
+
+            request['created'] = yourdate.strftime("%d-%b-%Y %H:%M:%S")
+            request['status'] = 'Accepted'
+            request['nhsNumber'] = format_nhs_number(request['nhsNumber'])
+
+            try:
+                filtered_request_list[request['nhsNumber']].append(request)
+
+            except KeyError as e:
+                filtered_request_list[request['nhsNumber']] = []
+                filtered_request_list[request['nhsNumber']].append(request)
+
+    return filtered_request_list
+
+
 # Gets a list of all cancelled requests
 def get_cancelled_requests():
     response = requests.get('https://camhs-api.herokuapp.com/requests')
