@@ -41,7 +41,7 @@ def get_trust_statuses(list_of_trust_ids):
 
 # Gets the statuses of all trusts in the system
 def get_all_trust_statuses():
-    trust_statuses = []
+    trust_statuses = {}
 
     response = requests.get('https://camhs-api.herokuapp.com/trusts')
     all_trusts = response.json()
@@ -80,7 +80,11 @@ def get_all_trust_statuses():
         else:
             trust_status['type3_class'] = 'success'
 
-        trust_statuses.append(trust_status)
+        try:
+            trust_statuses[trust['region']].append(trust_status)
+        except KeyError as e:
+            trust_statuses[trust['region']] = []
+            trust_statuses[trust['region']].append(trust_status)
 
     print(trust_statuses)
 
@@ -117,3 +121,11 @@ def get_rejected_requests():
             filtered_request_list.append(request)
 
     return filtered_request_list
+
+trusts = get_all_trust_statuses()
+
+print(trusts)
+
+for i in trusts:
+    print(trusts[i])
+

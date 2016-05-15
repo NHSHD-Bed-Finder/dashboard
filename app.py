@@ -13,7 +13,7 @@ app = Flask(__name__)
 def dashboard():
 
     # Get trust statuses
-    list_of_trusts = ['R1A', 'R1A02','R1A03']
+    list_of_trusts = ['R1A', 'R1A02','RA708']
     trust_data = controller.get_trust_statuses(list_of_trusts)
 
     # Get active requests
